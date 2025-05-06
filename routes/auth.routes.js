@@ -9,14 +9,16 @@ require("dotenv").config();
 
 router.post("/register", async (req, res) => {
   try {
-    const { username, password, email, mobileNumber } = req.body;
+    const { username, password, email, mobileNumber, role } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
+    const userRole = role || "admin";
     const userValidate = {
       username,
       password,
       email,
       mobileNumber,
       is_active,
+      userRole,
     };
     const response = validationUser.validate(userValidate);
     if (response.error) {
@@ -28,7 +30,9 @@ router.post("/register", async (req, res) => {
       username,
       password: hashedPassword,
       email,
-      ticket_status,
+      userRole,
+      mobileNumber,
+      is_active,
     });
     await user.save();
     res.status(201).json({ message: "User registered successfully" });

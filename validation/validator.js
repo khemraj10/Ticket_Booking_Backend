@@ -10,6 +10,7 @@ export const validationUser = joi.object({
     .pattern(/[6-9]{1}[0-9]{9}/)
     .required(),
   is_active: joi.boolean().default(true),
+  userRole: joi.string().required(),
 });
 
 export const validationTrip = joi.object({
